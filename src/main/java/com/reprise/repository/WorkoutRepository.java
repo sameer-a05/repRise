@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface WorkoutRepository extends JpaRepository<Workout,Long> {
-    List<Workout> findByUserIdOrderByWorkoutDateDesc(Long userId);
-    Page<Workout> findByUserIdOrderByWorkoutDateDesc(Long userId, Pageable pageable);
+    List<Workout> findByUserIdOrderByWorkDateDesc(Long userId);
+    Page<Workout> findByUserIdOrderByWorkDateDesc(Long userId, Pageable pageable);
 
     @Query("SELECT w FROM Workout w LEFT JOIN FETCH w.workoutExercises we LEFT JOIN FETCH we.sets WHERE w.id = :workoutId")
     Workout findByIdWithDetails(@Param("workoutId") Long workoutId);
 
-    @Query("SELECT w FROM Workout w WHERE w.user.id = :userId AND w.workoutDate BETWEEN :startDate AND :endDate ORDER BY w.workoutDate DESC")
+    @Query("SELECT w FROM Workout w WHERE w.user.id = :userId AND w.workDate BETWEEN :startDate AND :endDate ORDER BY w.workDate DESC")
     List<Workout> findByUserIdAndDateRange(@Param("userId") Long userId,
                                            @Param("startDate") LocalDateTime startDate,
                                            @Param("endDate") LocalDateTime endDate);
@@ -26,6 +26,6 @@ public interface WorkoutRepository extends JpaRepository<Workout,Long> {
     @Query("SELECT COUNT(w) FROM Workout w WHERE w.user.id = :userId")
     Long countByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT w FROM Workout w JOIN w.workoutExercises we WHERE w.user.id = :userId AND we.exercise.id = :exerciseId ORDER BY w.workoutDate DESC")
+    @Query("SELECT w FROM Workout w JOIN w.workoutExercises we WHERE w.user.id = :userId AND we.exercise.id = :exerciseId ORDER BY w.workDate DESC")
     List<Workout> findByUserIdAndExerciseId(@Param("userId") Long userId, @Param("exerciseId") Long exerciseId);
 }

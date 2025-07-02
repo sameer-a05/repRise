@@ -37,12 +37,12 @@ public class WorkoutService {
 
     @Transactional(readOnly = true)
     public List<Workout> findByUserId(Long userId) {
-        return workoutRepository.findByUserIdOrderByWorkoutDateDesc(userId);
+        return workoutRepository.findByUserIdOrderByWorkDateDesc(userId);
     }
 
     @Transactional(readOnly = true)
     public Page<Workout> findByUserId(Long userId, Pageable pageable) {
-        return workoutRepository.findByUserIdOrderByWorkoutDateDesc(userId, pageable);
+        return workoutRepository.findByUserIdOrderByWorkDateDesc(userId, pageable);
     }
 
     @Transactional(readOnly = true)
@@ -78,7 +78,7 @@ public class WorkoutService {
 
     @Transactional(readOnly = true)
     public List<Workout> getRecentWorkouts(Long userId, int limit) {
-        return workoutRepository.findByUserIdOrderByWorkoutDateDesc(userId)
+        return workoutRepository.findByUserIdOrderByWorkDateDesc(userId)
                 .stream()
                 .limit(limit)
                 .toList();
